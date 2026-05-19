@@ -18,5 +18,10 @@ Standalone executables (Python, bash, Node, etc.) that solve one well-scoped pro
 ### `rules/`
 Behavior rules — short markdown files containing global instructions for Claude or other agents. Single-concern, declarative. Used by copying content into `~/.claude/rules/` or a project's `CLAUDE.md`.
 
+- `thought-depth.md`: six-criterion standard for substantive responses that need structural depth, boundaries, contradiction handling, and transferability.
+- `critical-thinking.md`: seven-check standard for testing claims against definitions, premises, evidence, reasoning, counterexamples, and scope.
+
 ### `templates/`
 Document and code skeletons — starter files for repeatable artifacts (design doc structure, PR description, ADR format, etc.). Each template is a folder with the skeleton file plus a README explaining when to use it and what variables to fill.
+
+- `project-quality-framework/`: portable governance framework for AI-assisted software projects, including quality gates, file responsibility boundaries, checkpoint protocol, and adoption workflow.
