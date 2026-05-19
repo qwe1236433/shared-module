@@ -10,6 +10,8 @@ Claude Code skills — packages that extend Claude's behavior when triggered by 
 ### `workflows/`
 Multi-step procedures for repeatable tasks (e.g. audit flow, review flow, migration flow). Each workflow is a folder with a `README.md` describing the steps, plus optional checklists, templates, or supporting scripts. Used by reading the README and following the steps.
 
+- `parallel-lane-workflow/`: file-based multi-window coordination workflow with handoff baskets, task claims, queue boards, schemas, examples, and validators.
+
 ### `scripts/`
 Standalone executables (Python, bash, Node, etc.) that solve one well-scoped problem each. Each script is a folder (not a bare file) containing the main file, dependencies file, README, and optional examples. Used by copying the folder and running per its README.
 

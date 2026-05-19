@@ -1,0 +1,21 @@
+schema_version: parallel_lane_handoff_basket_v1
+basket_id: S03-BASKET-L2-TO-L2-NEXT-GATE
+from_lane: S03-L2A-D3-CASABLANCA
+to_lane: S03-L2-D3-PROMOTION
+source_packet: docs/research/professional_system_research_phase1/S03_research_report/S03_L2A_D3_CAND_003_Casablanca_locator_lock_check_20260519.md
+accepted_input_state: source_reference_marked
+produced_output_state: professional_source_clipped
+gate_result: accepted_with_limits
+ready_for_downstream: true
+downstream_allowed_action: separate A02 and A05 source clips and preserve the exact locator lock limit
+downstream_forbidden_action:
+  - accepted_D3
+  - D4_evidence_count
+  - solver_input
+  - runtime_use
+  - precision_lock_without_trigger
+blockers:
+  - final D3 review has not accepted the case
+  - exact quote/timecode proof remains limited by source availability
+next_basket_owner: S03-L2-D3-PROMOTION
+precision_lock_required: false

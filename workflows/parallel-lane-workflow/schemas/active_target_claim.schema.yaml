@@ -1,0 +1,78 @@
+schema_id: parallel_lane_active_target_claim_v1
+artifact: parallel_lane_active_target_claim
+owner: parallel_lane_workflow
+description: >
+  Machine-checkable active target claim for the parallel lane workflow. A claim
+  records which lane/window owns one target, which handoff basket it consumes,
+  which files it may touch, and which basket must be deposited or returned
+  before the claim is released.
+shared_sources:
+  lane_list: schemas/handoff_basket.schema.yaml#allowed_lanes
+  forbidden_action_list: schemas/handoff_basket.schema.yaml#allowed_forbidden_actions
+required_root_fields:
+  - schema_version
+  - claim_id
+  - lane
+  - target
+  - source_basket
+  - claim_status
+  - claimed_by
+  - claim_started_at
+  - review_after
+  - write_scope
+  - forbidden_write_scope
+  - allowed_actions
+  - forbidden_actions
+  - acceptance_standard_ref
+  - release_condition
+  - handoff_basket_on_release
+required_target_fields:
+  - target_id
+  - coordinate
+  - plain_name
+required_source_basket_fields:
+  - basket_id
+  - path
+  - expected_to_lane
+required_handoff_basket_on_release_fields:
+  - expected_basket_id
+  - expected_to_lane
+  - required_before_release
+allowed_claim_statuses:
+  - active
+  - released
+  - blocked
+  - returned
+active_claim_statuses:
+  - active
+closed_claim_statuses:
+  - released
+  - blocked
+  - returned
+broad_write_scope_patterns:
+  - "."
+  - "*"
+  - "**"
+  - "docs"
+  - "docs/**"
+  - "docs/research"
+  - "docs/research/**"
+  - "docs/research/professional_system_research_phase1"
+  - "docs/research/professional_system_research_phase1/**"
+  - "docs/design"
+  - "docs/design/**"
+  - "tools"
+  - "tools/**"
+  - "serial-projects"
+  - "serial-projects/**"
+validation_gates:
+  - root_required
+  - nested_required
+  - claim_status_valid
+  - lane_allowed
+  - source_basket_matches_lane
+  - source_basket_validates
+  - write_scope_narrow
+  - actions_explicit
+  - lifecycle_consistent
+  - duplicate_active_claim

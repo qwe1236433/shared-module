@@ -1,0 +1,211 @@
+schema_id: parallel_lane_handoff_basket_v1
+artifact: parallel_lane_handoff_basket
+owner: parallel_lane_workflow
+description: >
+  Machine-checkable handoff basket for the parallel lane workflow. The basket is
+  the only container a downstream lane may consume. Missing fields are blockers;
+  receivers must not infer them from chat context, model memory, or source
+  familiarity.
+required_root_fields:
+  - schema_version
+  - basket_id
+  - from_lane
+  - to_lane
+  - source_packet
+  - accepted_input_state
+  - produced_output_state
+  - gate_result
+  - ready_for_downstream
+  - downstream_allowed_action
+  - downstream_forbidden_action
+  - blockers
+  - next_basket_owner
+  - precision_lock_required
+allowed_gate_results:
+  - accepted
+  - accepted_with_limits
+  - blocked_missing_required_field
+  - blocked_failed_gate
+  - blocked_wrong_receiver
+  - returned_to_previous_lane
+ready_gate_results:
+  - accepted
+  - accepted_with_limits
+blocked_gate_results:
+  - blocked_missing_required_field
+  - blocked_failed_gate
+  - blocked_wrong_receiver
+  - returned_to_previous_lane
+allowed_lanes:
+  - S03-L1-MATERIAL-SUPPLY
+  - S03-L2-D3-PROMOTION
+  - S03-L2A-D3-CASABLANCA
+  - S03-L2B-D3-FLEABAG
+  - S03-L3-DEEP-RELATION-PREP
+  - HUMAN-D3-REVIEW
+  - FUTURE-SOLVER-LANE
+allowed_precision_triggers:
+  - quote_publication
+  - screenshot_or_frame_claim
+  - legal_copy_proof
+  - page_panel_fixture
+  - training_data
+  - user_requested_exact_version_comparison
+allowed_forbidden_actions:
+  - source_index_admission
+  - PAR
+  - case_profile
+  - accepted_D3
+  - D4_evidence_count
+  - graph_edge
+  - solver_input
+  - weights
+  - algorithm_choice
+  - schema
+  - validator
+  - manifest
+  - database
+  - UI
+  - prompt
+  - provider
+  - runtime_use
+  - precision_lock_without_trigger
+basket_routes:
+  S03-BASKET-L1-TO-L2-CANDIDATE:
+    from_lane: S03-L1-MATERIAL-SUPPLY
+    to_lane: S03-L2-D3-PROMOTION
+    allowed_input_states:
+      - pool_candidate
+      - priority_work_unit_candidate
+      - source_reviewed
+    allowed_output_states:
+      - candidate_packet
+      - source_review_packet
+      - d3_row_candidate_recommended
+    allowed_forbidden_actions:
+      - source_index_admission
+      - PAR
+      - case_profile
+      - accepted_D3
+      - D4_evidence_count
+      - solver_input
+      - schema
+      - validator
+      - manifest
+      - database
+      - UI
+      - prompt
+      - provider
+      - runtime_use
+  S03-BASKET-L2-TO-L2-NEXT-GATE:
+    from_lane:
+      - S03-L2-D3-PROMOTION
+      - S03-L2A-D3-CASABLANCA
+      - S03-L2B-D3-FLEABAG
+    to_lane: S03-L2-D3-PROMOTION
+    allowed_input_states:
+      - d3_row_candidate
+      - authority_entry_checked
+      - source_reference_marked
+      - professional_source_clipped
+      - false_positive_guarded
+    allowed_output_states:
+      - source_reference_marked
+      - unit_boundary_marked
+      - professional_source_clipped
+      - false_positive_guarded
+      - PAR_ready
+      - case_profile_draft
+      - D3_profile_draft
+    allowed_forbidden_actions:
+      - accepted_D3
+      - D4_evidence_count
+      - solver_input
+      - schema
+      - validator
+      - manifest
+      - database
+      - UI
+      - prompt
+      - provider
+      - runtime_use
+      - precision_lock_without_trigger
+  S03-BASKET-L2-TO-L3-REVIEW-ONLY:
+    from_lane:
+      - S03-L2-D3-PROMOTION
+      - S03-L2A-D3-CASABLANCA
+      - S03-L2B-D3-FLEABAG
+    to_lane: S03-L3-DEEP-RELATION-PREP
+    allowed_input_states:
+      - D3_review_candidate
+      - D3_accepted
+    allowed_output_states:
+      - D4_question
+      - D4_hypothesis
+      - D4_relation_ready
+    allowed_forbidden_actions:
+      - D4_evidence_count
+      - graph_edge
+      - weights
+      - algorithm_choice
+      - solver_input
+      - schema
+      - validator
+      - manifest
+      - database
+      - UI
+      - prompt
+      - provider
+      - runtime_use
+  S03-BASKET-L2-TO-D3-REVIEW:
+    from_lane:
+      - S03-L2-D3-PROMOTION
+      - S03-L2A-D3-CASABLANCA
+      - S03-L2B-D3-FLEABAG
+    to_lane: HUMAN-D3-REVIEW
+    allowed_input_states:
+      - case_profile_draft
+      - D3_profile_draft
+    allowed_output_states:
+      - D3_review_candidate
+    allowed_forbidden_actions:
+      - D4_evidence_count
+      - solver_input
+      - schema
+      - validator
+      - manifest
+      - database
+      - UI
+      - prompt
+      - provider
+      - runtime_use
+  S03-BASKET-L3-TO-FUTURE-SOLVER:
+    from_lane: S03-L3-DEEP-RELATION-PREP
+    to_lane: FUTURE-SOLVER-LANE
+    allowed_input_states:
+      - D3_accepted
+      - D4_relation_ready
+    allowed_output_states:
+      - solver_shape_review_only
+    allowed_forbidden_actions:
+      - solver_input
+      - weights
+      - algorithm_choice
+      - schema
+      - validator
+      - manifest
+      - database
+      - UI
+      - prompt
+      - provider
+      - runtime_use
+validation_gates:
+  - root_required
+  - route_known
+  - lane_allowed
+  - receiver_matches
+  - state_transition_allowed
+  - gate_result_valid
+  - readiness_consistent
+  - downstream_actions_explicit
+  - precision_trigger_valid

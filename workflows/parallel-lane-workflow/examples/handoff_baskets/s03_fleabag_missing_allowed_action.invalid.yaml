@@ -1,0 +1,17 @@
+schema_version: parallel_lane_handoff_basket_v1
+basket_id: S03-BASKET-L2-TO-L2-NEXT-GATE
+from_lane: S03-L2B-D3-FLEABAG
+to_lane: S03-L2-D3-PROMOTION
+source_packet: docs/research/professional_system_research_phase1/S03_research_report/S03_L2B_D3_CAND_006_Fleabag_source_check_20260519.md
+accepted_input_state: d3_row_candidate
+produced_output_state: source_reference_marked
+gate_result: accepted_with_limits
+ready_for_downstream: true
+downstream_allowed_action: ""
+downstream_forbidden_action:
+  - accepted_D3
+  - D4_evidence_count
+blockers:
+  - professional-source clips remain partial
+next_basket_owner: S03-L2-D3-PROMOTION
+precision_lock_required: false

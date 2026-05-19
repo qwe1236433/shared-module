@@ -1,0 +1,37 @@
+schema_version: parallel_lane_queue_board_v1
+board_id: S03-QUEUE-BOARD-20260519-UNCLAIMED-CONFLICT
+board_status: active
+board_owner: parallel_lane_workflow
+updated_at: "2026-05-19T12:50:00+08:00"
+lanes:
+  - lane: S03-L2-D3-PROMOTION
+    plain_name: Lane 2 D3 evidence promotion
+    max_active_claims: 2
+available_baskets:
+  - basket_ref: S03-BASKET-REF-FLEABAG-L2-NEXT-GATE-20260519
+    basket_id: S03-BASKET-L2-TO-L2-NEXT-GATE
+    path: examples/handoff_baskets/s03_fleabag_l2_next_gate.valid.yaml
+    from_lane: S03-L2B-D3-FLEABAG
+    to_lane: S03-L2-D3-PROMOTION
+    basket_state: available
+targets:
+  - target_id: S03-D3-CAND-006-FLEABAG
+    coordinate: S03-L2B-D3-FLEABAG
+    plain_name: Fleabag S2E3 mirror-look source-reference next gate
+    lane: S03-L2-D3-PROMOTION
+    queue_status: unclaimed
+    source_basket_ref: S03-BASKET-REF-FLEABAG-L2-NEXT-GATE-20260519
+    maturity_state: source_reference_marked
+    priority: P1
+    next_allowed_action: separate A04, A06, A07, and A08 evidence
+    active_claim_id: S03-CLAIM-20260519-L2-FLEABAG-NEXT-GATE
+    blockers: []
+active_claims:
+  - claim_id: S03-CLAIM-20260519-L2-FLEABAG-NEXT-GATE
+    path: examples/task_claims/s03_fleabag_active_claim.valid.yaml
+    target_id: S03-D3-CAND-006-FLEABAG
+    lane: S03-L2-D3-PROMOTION
+board_rules:
+  max_active_claims_per_target: 1
+  receivers_must_match_source_basket: true
+  loose_notes_allowed: false

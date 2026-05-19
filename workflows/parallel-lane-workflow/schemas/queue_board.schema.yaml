@@ -1,0 +1,79 @@
+schema_id: parallel_lane_queue_board_v1
+artifact: parallel_lane_queue_board
+owner: parallel_lane_workflow
+description: >
+  Machine-checkable file-based queue board for the parallel lane workflow. The
+  board lists available baskets, queue targets, and active claims so workers can
+  pick the next task without using chat memory or inference.
+shared_sources:
+  lane_list: schemas/handoff_basket.schema.yaml#allowed_lanes
+  handoff_basket_schema: schemas/handoff_basket.schema.yaml
+  task_claim_schema: schemas/active_target_claim.schema.yaml
+required_root_fields:
+  - schema_version
+  - board_id
+  - board_status
+  - board_owner
+  - updated_at
+  - lanes
+  - available_baskets
+  - targets
+  - active_claims
+  - board_rules
+required_lane_fields:
+  - lane
+  - plain_name
+  - max_active_claims
+required_available_basket_fields:
+  - basket_ref
+  - basket_id
+  - path
+  - from_lane
+  - to_lane
+  - basket_state
+required_target_fields:
+  - target_id
+  - coordinate
+  - plain_name
+  - lane
+  - queue_status
+  - source_basket_ref
+  - maturity_state
+  - priority
+  - next_allowed_action
+  - blockers
+required_active_claim_fields:
+  - claim_id
+  - path
+  - target_id
+  - lane
+required_board_rule_fields:
+  - max_active_claims_per_target
+  - receivers_must_match_source_basket
+  - loose_notes_allowed
+allowed_board_statuses:
+  - active
+  - paused
+  - closed
+allowed_basket_states:
+  - available
+  - consumed
+allowed_queue_statuses:
+  - unclaimed
+  - active_claim
+  - blocked
+  - returned
+  - released
+next_eligible_statuses:
+  - unclaimed
+validation_gates:
+  - root_required
+  - board_status_valid
+  - board_rules_explicit
+  - lanes_allowed
+  - available_baskets_validate
+  - target_source_basket_exists
+  - active_claims_validate
+  - one_active_claim_per_target
+  - target_claim_status_consistent
+  - next_eligible_targets_computed

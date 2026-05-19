@@ -1,0 +1,38 @@
+schema_version: parallel_lane_active_target_claim_v1
+claim_id: S03-CLAIM-20260519-L2-FLEABAG-NEXT-GATE
+lane: S03-L2-D3-PROMOTION
+target:
+  target_id: S03-D3-CAND-006-FLEABAG
+  coordinate: S03-L2B-D3-FLEABAG
+  plain_name: Fleabag S2E3 mirror-look source-reference next gate
+source_basket:
+  basket_id: S03-BASKET-L2-TO-L2-NEXT-GATE
+  path: examples/handoff_baskets/s03_fleabag_l2_next_gate.valid.yaml
+  expected_to_lane: S03-L2-D3-PROMOTION
+claim_status: active
+claimed_by: lane-window-l2b-fleabag
+claim_started_at: "2026-05-19T13:10:00+08:00"
+review_after: "2026-05-19T14:10:00+08:00"
+write_scope:
+  - live/task_claims/active/S03-CLAIM-20260519-L2-FLEABAG-NEXT-GATE.claim.yaml
+  - docs/research/professional_system_research_phase1/S03_research_report/S03_D3_CAND_006_Fleabag_promotion_packet_20260519.md
+forbidden_write_scope:
+  - docs/design/06_HANDOFF.md
+  - docs/design/07_AUDIT_STATUS.md
+  - docs/research/professional_system_research_phase1/S03_parallel_material_d3_deep_lane_map.md
+allowed_actions:
+  - consume the addressed handoff basket
+  - separate A04, A06, A07, and A08 evidence
+  - write the false-positive guard
+forbidden_actions:
+  - accepted_D3
+  - D4_evidence_count
+  - solver_input
+  - runtime_use
+acceptance_standard_ref: docs/s03-pilot-handoff-basket.md#4-lane-2-basket-d3-promotion-internal-gate
+release_condition: deposit a validated handoff basket after packet update, or mark blocked with the missing gate
+handoff_basket_on_release:
+  expected_basket_id: S03-BASKET-L2-TO-L2-NEXT-GATE
+  expected_to_lane: S03-L2-D3-PROMOTION
+  required_before_release: true
+blockers: []
